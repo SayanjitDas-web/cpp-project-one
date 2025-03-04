@@ -68,13 +68,57 @@ void checkAdulteration(vector<Food>& database, string food_name, float user_pH, 
     cout << "Food item not found in database.  " << endl;
 }
 
+void saveTestHistory(string food, float pH, string colour, string result){
+    ofstream file("test_history.txt", ios::app);
+    file <<"Food: " << food <<" , pH: " << pH << " , Colour: " << colour << " , Result: " << result << endl;
+    file.close();
+}
+
+void displayTestHistory(){
+    ifstream file("test_history.txt");
+    if(!file){
+        cout << "No previous test history found!" << endl;
+        return;
+    }
+    cout << endl << "Previous Tests: " << endl;
+    string line;
+    while(getline(file, line)){
+        cout << line << endl;
+    }
+    file.close();
+}
+
+void menu(vector<Food>& database){
+    int choice;
+    do {
+        cout<< endl<< " Food Adulteration Detection System " << endl;
+        cout <<"press[1] to Check Food for Adulteration " << endl;
+        cout <<"press[2] to View Previous Test History " << endl;
+        cout <<"press[3] to Exit " << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if(choice == 1){
+           string food_name, user_colour;
+           float user_pH;
+
+           cout << "Enter food name (e.g turmeric, milk ..): ";
+           cin >> food_name;
+           cout << "Enter observed pH level: ";
+           cin >> user_pH;
+           cout << "Enter observed colour: ";
+           cin >> user_colour;
+
+           checkAdulteration(database, food_name, user_pH, user_colour);
+           saveTestHistory(food_name, user_pH, user_colour, "Checked");
+        }else if(choice == 2){
+            displayTestHistory();
+        }
+    }while(choice != 3);
+}
+
 int main(){
     vector<Food> data = loadFoodDatabase();
-    for(Food val: data){
-        cout << val.name << endl;
-        cout << val.normal_colour << endl;
-        cout << val.normal_pH_high << endl;
-        cout << val.normal_pH_low << endl << endl;
-    }
+    menu(data);
     return 0;
 }

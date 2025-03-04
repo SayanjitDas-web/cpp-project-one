@@ -1,0 +1,4 @@
+Food: rice , pH: 7 , Colour: white , Result: Checked
+Food: milk , pH: 6.5 , Colour: white , Result: Checked
+Food: Milk , pH: 6.5 , Colour: White , Result: Checked
+Food: Milk , pH: 7 , Colour: Yellow , Result: Checked
